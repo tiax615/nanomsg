@@ -8,6 +8,8 @@ Welcome to nanomsg
 [![Coverage](https://codecov.io/gh/nanomsg/nanomsg/branch/master/graph/badge.svg?label=coverage)](https://codecov.io/gh/nanomsg/nanomsg)
 [![Gitter](https://img.shields.io/badge/gitter-join-brightgreen.svg)](https://gitter.im/nanomsg/nanomsg)
 
+2019/11/13 亲测可用，但是有坑。见下方 ***Win10 X64 编译方法***。
+
 The nanomsg library is a simple high-performance implementation of several
 "scalability protocols". These scalability protocols are light-weight messaging
 protocols which can be used to solve a number of very common messaging
@@ -76,6 +78,29 @@ It also assumes you are in the project directory.
 5.  `ctest -C Debug .`
 6.  `cmake --build . --config Debug --target install`
     *NB:* This may have to be done using an Administrator account.
+
+## Win10 X64 编译方法
+上面那个编译出来的，可能是32位（X86）的 nanomsg，不能用。改一下编译的方法，这里使用的 VS2017。
+### 安装 CMake
+1. 百度 Cmake，进入下载页面 https://cmake.org/download/
+2. 下载 Cmake，当前的最新版本为 Latest Release (3.15.5)。
+3. 安装 Cmake，注意选择加入 Path，方便以后使用。
+4. 运行 CMD，输入 Cmake，能运行说明安装成功了。接下来就可以开始编译 nanomsg 了。
+### 编译 nanomsg
+在 nanomsg github release 中下载要用的版本的 Zip，当前使用 Release 1.1.5。解压。  
+右键 Windows 图标，运行 Windows PowerShell（管理员），不用 CMD 因为丑。cd 到解压后的 nanomsg 根目录。
+1. `md build`
+2. `cd build`
+3. `cmake -G "Visual Studio 15 Win64" ..`
+4. `cmake --build . --config Debug`
+5. `ctest -C Debug .`
+6. `cmake --build . --config Debug --target install`
+不在第3步加 `-DNN_STATIC_LIB=ON`。编译好的 nanomsg 会出现在 C:\Program Files\nanomsg。如果弄成了32位，就会出现在 C:\Program Files(x86)\nanomsg。这个 nanomsg 文件夹包含 .h/lib/dll。
+### 使用 nanomsg
+以 C++ 控制台程序举例
+1. 打开 VS，新建一个 C++ 控制台项目。
+2. 将上面得到的 /.h/lib/dll 弄到项目目录下。
+3. 用他
 
 Static Library
 --------------
